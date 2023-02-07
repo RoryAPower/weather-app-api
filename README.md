@@ -7,8 +7,9 @@ API for grabbing geolocations and weather data using open weather service
 2. run `composer install` to grab packages
 3. run `cp .env.example .env`
 4. run `./vendor/bin/sail up` to bring up machine
-5. run `./vendor/bin/sail artisan migrate --seed` to run database migrations and seed some data
-6. The app should be available at `http://localhost`
+5. run `./vendor/bin/sail artisan key:generate` to add an app key
+6. run `./vendor/bin/sail artisan migrate --seed` to run database migrations and seed some data
+7. The app should be available at `http://localhost`
 
 
 ### Notes
