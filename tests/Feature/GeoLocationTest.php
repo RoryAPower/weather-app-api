@@ -26,7 +26,10 @@ class GeoLocationTest extends TestCase
     public function testGetCity(): void
     {
         Http::fake([
-            $this->openWeatherUrl => Http::response(['city' => 'London'], 200, ['Headers']),
+            $this->openWeatherUrl => Http::response([
+                ['name' => 'London', 'lat' => 53.4071991, 'lon' => -2.99168, 'country' => 'GB'],
+                ['name' => 'Liverpool', 'lat' => 53.4071991, 'lon' => -2.99168, 'country' => 'GB']
+            ], 200, ['Headers']),
         ]);
 
         $user = User::first();
@@ -34,6 +37,6 @@ class GeoLocationTest extends TestCase
         $response = $this->actingAs($user)->get("{$this->apiPath}/geo-location?city=London");
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['city' => 'London']);
+            ->assertJsonFragment(['name' => 'London']);
     }
 }

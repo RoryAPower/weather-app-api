@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CityResource extends JsonResource
@@ -9,17 +10,18 @@ class CityResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
             'country' => $this->country,
             'lat' => $this->lat,
-            'long' => $this->long
+            'long' => $this->long,
+            'state' => $this->state
         ];
     }
 }

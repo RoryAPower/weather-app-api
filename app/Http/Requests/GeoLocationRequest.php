@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class WeatherRequest extends FormRequest
+class GeoLocationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class WeatherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'lat' => 'required|string',
-            'long' => 'required|string'
+            'city' => 'required|string'
         ];
     }
 }

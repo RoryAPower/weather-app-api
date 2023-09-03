@@ -18,10 +18,9 @@ class City extends Model
     protected $fillable = [
         'name',
         'country',
-        'external_weather_id',
+        'state',
         'lat',
         'long',
-        'timezone',
     ];
 
     protected $casts = [

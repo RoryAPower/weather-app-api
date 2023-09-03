@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
+use App\Interfaces\GeoLocationInterface;
 use GuzzleHttp\Promise\PromiseInterface;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
-class GeoLocationService
+class GeoLocationService implements GeoLocationInterface
 {
     protected string $geoLocationApiUrl;
 
@@ -19,15 +19,27 @@ class GeoLocationService
         $this->geoLocationApiUrl = config('services.geo_location_api_url');
     }
 
-    /**
-     * @throws RequestException
-     */
-    public function getCity(string $city): PromiseInterface|Response
+    public function getCityList(string $city): array
     {
-        return Http::acceptJson()->get($this->geoLocationApiUrl, [
+        $response = Http::acceptJson()->get($this->geoLocationApiUrl, [
             'q' => $city,
             'limit' => 10,
             'appid' => $this->openWeatherApiKey,
-        ])->throw();
+        ]);
+
+       return $this->formatCityList($response);
+    }
+
+    private function formatCityList(PromiseInterface|Response $citiesResponse)
+    {
+        return $citiesResponse->collect()->map(function($city) {
+            return [
+                'name' => data_get($city, 'name'),
+                'lat' => data_get($city, 'lat'),
+                'long' => data_get($city, 'lon'),
+                'country' => data_get($city, 'country'),
+                'state' => data_get($city, 'state')
+            ];
+        })->toArray();
     }
 }

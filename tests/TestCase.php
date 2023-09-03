@@ -3,7 +3,6 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Http;
 use Spatie\LaravelRay\RayServiceProvider;
 
 abstract class TestCase extends BaseTestCase
@@ -18,8 +17,6 @@ abstract class TestCase extends BaseTestCase
 
         $this->apiPath = 'api';
         $this->seed();
-
-//        Http::preventStrayRequests();
     }
 
     protected function getPackageProviders($app): array

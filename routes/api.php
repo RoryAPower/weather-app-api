@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('my-details', [UserController::class, 'viewOwnUser'])
+    Route::get('my-details', [UserController::class, 'viewOwn'])
         ->name('user.view-own');
 
     Route::get('/weather', [WeatherController::class, 'view'])

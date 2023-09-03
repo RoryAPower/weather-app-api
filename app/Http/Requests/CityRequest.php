@@ -11,7 +11,7 @@ class CityRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,13 +21,14 @@ class CityRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'required|string',
             'lat' => 'required',
             'long' => 'required',
-            'country' => 'required|string'
+            'country' => 'required|string',
+            'state' => 'nullable|string'
         ];
     }
 }

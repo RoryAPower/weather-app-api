@@ -20,13 +20,15 @@ class UserTest extends TestCase
         $user = User::with('cities')->first();
 
         $cities = $user->cities->toArray();
+
         $cityResponse = array_map(function($city) {
             return [
                 'id' => $city['id'],
                 'name' => $city['name'],
                 'country' => $city['country'],
                 'lat' => $city['lat'],
-                'long' => $city['long']
+                'long' => $city['long'],
+                'state' =>  $city['state']
             ];
         }, $cities);
 

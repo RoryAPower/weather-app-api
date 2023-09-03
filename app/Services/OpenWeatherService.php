@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Interfaces\WeatherInterface;
 use GuzzleHttp\Promise\PromiseInterface;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
@@ -20,22 +19,36 @@ class OpenWeatherService implements WeatherInterface
         $this->openWeatherApiUrl = config('services.open_weather_api_url');
     }
 
-    /**
-     * @throws RequestException
-     */
-    public function getWeather(float $lat, float $long): PromiseInterface|Response
+    public function getWeather(float $lat, float $long): array
     {
-        return Http::acceptJson()->get($this->openWeatherApiUrl, [
+         $response = Http::acceptJson()->get($this->openWeatherApiUrl, [
             'lat' => $lat,
             'lon' => $long,
             'cnt' => 5,
             'appid' => $this->openWeatherApiKey,
             'units' => 'metric'
-        ])->throw();
+        ]);
+
+         return $this->formatWeather($response);
     }
 
-    public function buildResponse(Response $response): array
+    private function formatWeather(PromiseInterface|Response $weatherResponse): array
     {
-        return ['data' => $response->json()];
+        $weather = [];
+        $weatherCollection = $weatherResponse->collect();
+
+        $weather['city'] = data_get($weatherCollection, 'city.name');
+        $weather['weather'] = collect($weatherCollection->get('list'))->map(function($weatherItem) {
+            return [
+                'temp' => data_get($weatherItem, 'main.temp'),
+                'feelsLike' => data_get($weatherItem, 'main.feels_like'),
+                'tempMin' => data_get($weatherItem, 'main.temp_min'),
+                'tempMax' => data_get($weatherItem, 'main.temp_max'),
+                'humidity' => data_get($weatherItem, 'main.humidity'),
+                'icon' => data_get(head(data_get($weatherItem, 'weather')), 'icon'),
+            ];
+        })->toArray();
+
+        return $weather;
     }
 }

@@ -17,10 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('country');
-            $table->bigInteger('external_weather_id')->nullable();
+            $table->string('state')->nullable();
             $table->decimal('lat', 10, 7);
             $table->decimal('long', 10, 7);
-            $table->smallInteger('timezone')->nullable();
             $table->timestamps();
         });
     }

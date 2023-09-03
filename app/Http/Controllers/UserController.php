@@ -7,10 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function viewOwnUser(): UserResource
+    public function viewOwn(): UserResource
     {
-        $user = Auth::user();
-
-        return new UserResource($user->load('cities'));
+        return new UserResource(Auth::user()->load('cities'));
     }
 }

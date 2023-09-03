@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
-use App\Http\Controllers\WeatherController;
+use App\Interfaces\CityRepositoryInterface;
+use App\Interfaces\GeoLocationInterface;
+use App\Interfaces\WeatherInterface;
+use App\Repositories\CityRepository;
+use App\Services\GeoLocationService;
 use App\Services\OpenWeatherService;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,8 +29,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->bind(WeatherController::class, function ($app) {
-            return new WeatherController($app->make(OpenWeatherService::class));
-        });
+        $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
+        $this->app->bind(WeatherInterface::class, OpenWeatherService::class);
+        $this->app->bind(GeoLocationInterface::class, GeoLocationService::class);
+
     }
 }

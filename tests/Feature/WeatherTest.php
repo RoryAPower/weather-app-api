@@ -26,7 +26,11 @@ class WeatherTest extends TestCase
     public function testGetWeather(): void
     {
         Http::fake([
-            $this->openWeatherUrl => Http::response(['weather' => 'rain'], 200, ['Headers']),
+            $this->openWeatherUrl => Http::response(
+                [
+                    'city' => ['name' => 'London'],
+                ],
+            200, ['Headers']),
         ]);
 
         $user = User::with('cities')->first();
@@ -35,25 +39,6 @@ class WeatherTest extends TestCase
         $response = $this->actingAs($user)->get("{$this->apiPath}/weather?lat={$city->lat}&long={$city->long}");
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['weather' => 'rain']);
-    }
-
-    /**
-     * Test that user and associated cities are returned successfully
-     *
-     * @return void
-     */
-    public function testGetWeatherError(): void
-    {
-        Http::fake([
-            $this->openWeatherUrl => Http::response('auth error', 401, ['Headers']),
-        ]);
-
-        $user = User::with('cities')->first();
-        $city = $user->cities->first();
-
-        $response = $this->actingAs($user)->get("{$this->apiPath}/weather?lat={$city->lat}&long={$city->long}");
-
-        $response->assertStatus(401);
+            ->assertJsonFragment(['city' => 'London']);
     }
 }

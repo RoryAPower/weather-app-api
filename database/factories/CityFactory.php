@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends Factory
  */
 class CityFactory extends Factory
 {
@@ -14,15 +14,14 @@ class CityFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => fake()->city(),
             'country' => fake()->country(),
-            'external_weather_id' => fake()->randomNumber(8),
+            'state' => null,
             'lat' => fake()->latitude(),
             'long' => fake()->longitude(),
-            'timezone' => fake()->timezone(),
         ];
 
     }
