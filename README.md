@@ -14,8 +14,9 @@ API for grabbing geolocations and weather data using open weather service
 
 ### Notes
 1. API connection handled by [Laravel Sanctum](https://laravel.com/docs/9.x/sanctum)
-2. Login/Logout hand by [Laravel Fortify](https://laravel.com/docs/9.x/fortify)
-
+2. Login/Logout handled by [Laravel Fortify](https://laravel.com/docs/9.x/fortify)
+3. Geolocation data handled by `GeoLocationService.php`
+4. Weather data handled by `OpenWeatherService.php`
 
 ### Testing
 
@@ -25,4 +26,3 @@ API for grabbing geolocations and weather data using open weather service
 1. Add more tests
 2. Investigate caching weather data
 3. Add to form request validation
-4. Abstract the logic further so the geolocation and weather services can be swapped on the fly
