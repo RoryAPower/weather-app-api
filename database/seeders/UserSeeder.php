@@ -16,8 +16,8 @@ class UserSeeder extends Seeder
     {
         User::factory()
             ->state([
-                'name' => 'wagonex',
-                'email' => 'wagonex@gmail.com',
+                'name' => 'test user',
+                'email' => 'test@gmail.com',
                 'password' => bcrypt('test'),
             ])
             ->create();
