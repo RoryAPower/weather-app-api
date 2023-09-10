@@ -39,6 +39,7 @@ class OpenWeatherService implements WeatherInterface
 
         $weather['city'] = data_get($weatherCollection, 'city.name');
         $weather['weather'] = collect($weatherCollection->get('list'))->map(function($weatherItem) {
+
             return [
                 'temp' => data_get($weatherItem, 'main.temp'),
                 'feelsLike' => data_get($weatherItem, 'main.feels_like'),

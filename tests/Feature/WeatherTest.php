@@ -19,7 +19,7 @@ class WeatherTest extends TestCase
     }
 
     /**
-     * Test that user and associated cities are returned successfully
+     * Test that the weather is returned successfully
      *
      * @return void
      */
@@ -29,6 +29,15 @@ class WeatherTest extends TestCase
             $this->openWeatherUrl => Http::response(
                 [
                     'city' => ['name' => 'London'],
+                    'list' => [
+                        [
+                            'main' => [
+                                'temp' => 10,
+                                'feels_like' => 12,
+                            ],
+                            'weather' => [['icon' => 'test']]
+                        ]
+                    ],
                 ],
             200, ['Headers']),
         ]);
@@ -39,6 +48,9 @@ class WeatherTest extends TestCase
         $response = $this->actingAs($user)->get("{$this->apiPath}/weather?lat={$city->lat}&long={$city->long}");
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['city' => 'London']);
+            ->assertJsonFragment(['city' => 'London'])
+            ->assertJsonFragment(['temp' => 10])
+            ->assertJsonFragment(['feelsLike' => 12])
+            ->assertJsonFragment(['icon' => 'test']);
     }
 }
